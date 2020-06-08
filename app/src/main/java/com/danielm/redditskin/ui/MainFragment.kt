@@ -23,8 +23,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         postViewModel = ViewModelProvider(this).get(PostsViewModel::class.java)
-        postViewModel.posts().observe(this, Observer {
-            rvPosts.adapter = PostAdapter(it)
+        postViewModel.posts().observe(this, Observer { posts ->
+            rvPosts.adapter = PostAdapter(posts)
         })
     }
 
