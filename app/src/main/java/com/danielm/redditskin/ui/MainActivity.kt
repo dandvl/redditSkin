@@ -12,20 +12,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var postViewModel : PostsViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        rvPosts.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            setHasFixedSize(true)
-        }
-
-        postViewModel = ViewModelProvider(this).get(PostsViewModel::class.java)
-        postViewModel.posts().observe(this, Observer {
-            rvPosts.adapter = PostAdapter(it)
-        })
     }
 }

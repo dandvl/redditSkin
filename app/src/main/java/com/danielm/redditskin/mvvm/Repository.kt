@@ -20,6 +20,7 @@ class Repository {
 
         var ldPosts = MutableLiveData<List<PostItem>>()
 
+        //TODO which scope should I use?
         GlobalScope.launch(Dispatchers.IO){
             val posts = WebServices.all.top("all", 10).await()
             withContext(Dispatchers.Main){
