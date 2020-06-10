@@ -14,9 +14,9 @@ import retrofit2.Call
 import retrofit2.Response
 import retrofit2.await
 
-class Repository {
+class Repository : IRepository {
 
-    fun posts(): LiveData<List<PostItem>> {
+    override fun posts(): LiveData<List<PostItem>> {
 
         var ldPosts = MutableLiveData<List<PostItem>>()
 

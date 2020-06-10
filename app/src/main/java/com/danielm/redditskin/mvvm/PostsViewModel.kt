@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.danielm.redditskin.data.PostItem
 
-class PostsViewModel : ViewModel() {
+class PostsViewModel(private val repository : IRepository) : ViewModel() {
 
     fun posts () : LiveData<List<PostItem>> =
-        Repository().posts()
+        repository.posts()
 
 }
