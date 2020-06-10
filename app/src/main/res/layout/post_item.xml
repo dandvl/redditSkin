@@ -28,6 +28,7 @@
             />
 
         <ImageView
+            app:glideImage="@{post.thumbnail}"
             android:id="@+id/thumbnail"
             android:layout_width="64dp"
             android:layout_height="64dp"
