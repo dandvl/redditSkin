@@ -14,25 +14,8 @@ import retrofit2.Call
 import retrofit2.Response
 import retrofit2.await
 
-class Repository : IRepository {
+class Repository  {
 
-    override fun posts(): LiveData<List<PostItem>> {
-
-        var ldPosts = MutableLiveData<List<PostItem>>()
-
-        //TODO which scope should I use?
-        GlobalScope.launch(Dispatchers.IO){
-            val posts = WebServices.all.top("all", 10).await()
-            withContext(Dispatchers.Main){
-                if(!posts.data.children.isNullOrEmpty()){
-                    ldPosts.value = posts.data.children
-                }else{
-                    Log.i("RMC", "no posts!")
-                }
-            }
-        }
-
-        return ldPosts
-    }
+    suspend fun posts() = WebServices.all.top("all", 10)
 
 }

@@ -5,6 +5,6 @@ import com.danielm.redditskin.data.PostItem
 
 interface IRepository {
 
-    fun posts(): LiveData<List<PostItem>>
+    suspend fun posts(): LiveData<List<PostItem>>
 
 }
