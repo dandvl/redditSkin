@@ -3,12 +3,14 @@ package com.danielm.redditskin.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.danielm.redditskin.R
 import com.danielm.redditskin.data.PostItem
 import com.danielm.redditskin.databinding.PostItemBinding
 
-class PostAdapter(private val list : List<PostItem>) : RecyclerView.Adapter<PostAdapter.ViewHolder>()  {
+class PostAdapter() : RecyclerView.Adapter<PostAdapter.ViewHolder>()  {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
@@ -19,12 +21,24 @@ class PostAdapter(private val list : List<PostItem>) : RecyclerView.Adapter<Post
             false)
         )
 
-    override fun getItemCount() = list.size
+    override fun getItemCount() = differ.currentList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindingPost.post = list [position].data
+        holder.bindingPost.post = differ.currentList[position].data
     }
 
     inner class ViewHolder(var bindingPost: PostItemBinding) : RecyclerView.ViewHolder(bindingPost.root)
+
+    private val differCallback = object : DiffUtil.ItemCallback<PostItem>() {
+        override fun areItemsTheSame(oldItem: PostItem, newItem: PostItem): Boolean {
+            return oldItem.data.id == newItem.data.id
+        }
+
+        override fun areContentsTheSame(oldItem: PostItem, newItem: PostItem): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    val differ = AsyncListDiffer(this, differCallback)
 
 }

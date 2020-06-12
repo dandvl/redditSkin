@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.danielm.redditskin.R
 import com.danielm.redditskin.adapters.PostAdapter
+import com.danielm.redditskin.data.PostItem
 import com.danielm.redditskin.mvvm.PostsViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -14,23 +15,28 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainFragment : Fragment(R.layout.fragment_main) {
 
-
     private val postViewModel: PostsViewModel by viewModel()
 
+    lateinit var list : MutableList<PostItem>
+    lateinit var postAdapter : PostAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        list = mutableListOf()
+        postAdapter = PostAdapter()
+
         rvPosts.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
+            adapter = postAdapter
         }
 
         postViewModel.postsLD.observe(viewLifecycleOwner, Observer { response ->
             if(response.isSuccessful){
                 val postsResponse = response.body()?.data?.children
                 postsResponse?.let { posts ->
-                    rvPosts.adapter = PostAdapter(posts)
+                    postAdapter.differ.submitList(posts)
                 }
             }
         })
