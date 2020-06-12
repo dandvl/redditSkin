@@ -1,10 +1,10 @@
 package com.danielm.redditskin.mvvm
 
-import androidx.lifecycle.LiveData
-import com.danielm.redditskin.data.PostItem
+import com.danielm.redditskin.data.RedditResponse
+import retrofit2.Response
 
 interface IRepository {
 
-    fun posts(): LiveData<List<PostItem>>
+    suspend fun posts(): Response<RedditResponse>
 
 }

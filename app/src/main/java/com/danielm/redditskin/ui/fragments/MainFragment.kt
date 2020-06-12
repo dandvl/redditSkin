@@ -1,6 +1,7 @@
-package com.danielm.redditskin.ui
+package com.danielm.redditskin.ui.fragments
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,17 +18,24 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private val postViewModel: PostsViewModel by viewModel()
 
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         rvPosts.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
         }
 
-        postViewModel.posts().observe(this, Observer { posts ->
-            rvPosts.adapter = PostAdapter(posts)
+        postViewModel.postsLD.observe(viewLifecycleOwner, Observer { response ->
+            if(response.isSuccessful){
+                val postsResponse = response.body()?.data?.children
+                postsResponse?.let { posts ->
+                    rvPosts.adapter = PostAdapter(posts)
+                }
+            }
         })
+
     }
+
 
 }

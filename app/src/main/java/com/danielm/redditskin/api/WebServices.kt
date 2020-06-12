@@ -2,7 +2,7 @@ package com.danielm.redditskin.api
 
 import com.danielm.redditskin.data.RedditResponse
 import com.danielm.redditskin.utils.BASE_URL
-import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -16,9 +16,9 @@ val retrofit: Retrofit = Retrofit.Builder()
 
 interface RedditServices {
     @GET("/r/{subreddit}/hot.json")
-    fun top(
+    suspend fun top(
         @Path("subreddit") subreddit: String,
-        @Query("limit") limit: Int): Call<RedditResponse>
+        @Query("limit") limit: Int): Response<RedditResponse>
 }
 
 object WebServices {
