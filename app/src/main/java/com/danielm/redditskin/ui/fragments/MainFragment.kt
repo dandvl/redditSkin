@@ -7,7 +7,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.danielm.redditskin.R
 import com.danielm.redditskin.adapters.PostAdapter
-import com.danielm.redditskin.data.PostItem
 import com.danielm.redditskin.mvvm.PostsViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -16,14 +15,11 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val postViewModel: PostsViewModel by viewModel()
-
-    lateinit var list : MutableList<PostItem>
-    lateinit var postAdapter : PostAdapter
+    private lateinit var postAdapter : PostAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        list = mutableListOf()
         postAdapter = PostAdapter()
 
         rvPosts.apply {
@@ -42,6 +38,4 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         })
 
     }
-
-
 }

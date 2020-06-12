@@ -10,7 +10,7 @@ import com.danielm.redditskin.R
 import com.danielm.redditskin.data.PostItem
 import com.danielm.redditskin.databinding.PostItemBinding
 
-class PostAdapter() : RecyclerView.Adapter<PostAdapter.ViewHolder>()  {
+class PostAdapter : RecyclerView.Adapter<PostAdapter.ViewHolder>()  {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
@@ -27,18 +27,15 @@ class PostAdapter() : RecyclerView.Adapter<PostAdapter.ViewHolder>()  {
         holder.bindingPost.post = differ.currentList[position].data
     }
 
-    inner class ViewHolder(var bindingPost: PostItemBinding) : RecyclerView.ViewHolder(bindingPost.root)
+    class ViewHolder(var bindingPost: PostItemBinding) : RecyclerView.ViewHolder(bindingPost.root)
 
-    private val differCallback = object : DiffUtil.ItemCallback<PostItem>() {
-        override fun areItemsTheSame(oldItem: PostItem, newItem: PostItem): Boolean {
-            return oldItem.data.id == newItem.data.id
-        }
+    private val differCallback = (object : DiffUtil.ItemCallback<PostItem>() {
+        override fun areItemsTheSame(oldItem: PostItem, newItem: PostItem) =
+             oldItem.data.id == newItem.data.id
 
-        override fun areContentsTheSame(oldItem: PostItem, newItem: PostItem): Boolean {
-            return oldItem == newItem
-        }
-    }
+        override fun areContentsTheSame(oldItem: PostItem, newItem: PostItem) =
+             oldItem == newItem
+    })
 
     val differ = AsyncListDiffer(this, differCallback)
-
 }
