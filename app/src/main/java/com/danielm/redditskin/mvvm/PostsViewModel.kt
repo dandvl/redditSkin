@@ -7,7 +7,7 @@ import com.danielm.redditskin.data.RedditResponse
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class PostsViewModel(private val postRepository : Repository) : ViewModel() {
+class PostsViewModel(private val postRepository : IRepository) : ViewModel() {
 
     val postsLD : MutableLiveData<Response<RedditResponse>> = MutableLiveData()
 

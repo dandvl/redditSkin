@@ -26,7 +26,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             setHasFixedSize(true)
         }
 
-        postViewModel.postsLD.observe(this@MainFragment, Observer { response ->
+        postViewModel.postsLD.observe(viewLifecycleOwner, Observer { response ->
             if(response.isSuccessful){
                 val postsResponse = response.body()?.data?.children
                 postsResponse?.let { posts ->
