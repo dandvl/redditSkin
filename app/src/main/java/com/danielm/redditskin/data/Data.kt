@@ -7,3 +7,4 @@ data class Data(
     val dist: Int,
     val modhash: String
 )
+
