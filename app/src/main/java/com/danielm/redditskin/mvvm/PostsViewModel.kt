@@ -16,7 +16,7 @@ class PostsViewModel(private val postRepository : IRepository) : ViewModel() {
         loadPosts()
     }
 
-    private fun loadPosts() = viewModelScope.launch {
+    fun loadPosts() = viewModelScope.launch {
         postsLD.postValue(Resource.Loading())
         val response = postRepository.posts()
         postsLD.postValue(handleBreakingNewsResponse(response))

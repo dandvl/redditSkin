@@ -32,7 +32,7 @@ data class PostInfo(
     val distinguished: String,
     val domain: String,
     val downs: Int,
-    val edited: Boolean,
+    val edited: Any,
     val gilded: Int,
     val gildings: Gildings,
     val hidden: Boolean,
