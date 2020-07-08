@@ -6,6 +6,6 @@ import retrofit2.Response
 
 interface IRepository {
 
-    suspend fun posts(): Response<RedditResponse>
+    suspend fun posts(after : String): Response<RedditResponse>
 
 }

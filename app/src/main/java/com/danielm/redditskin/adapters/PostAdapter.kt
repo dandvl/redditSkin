@@ -37,9 +37,9 @@ class PostAdapter : RecyclerView.Adapter<PostAdapter.ViewHolder>()  {
              oldItem == newItem
     })
 
-    private val differ = AsyncListDiffer(this, differCallback)
+    val differ = AsyncListDiffer(this, differCallback)
 
     fun submitList(list :List<PostItem>){
-        differ.submitList(list)
+        differ.submitList(differ.currentList + list)
     }
 }

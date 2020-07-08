@@ -19,6 +19,12 @@ interface RedditServices {
     suspend fun top(
         @Path("subreddit") subreddit: String,
         @Query("limit") limit: Int): Response<RedditResponse>
+
+    @GET("/r/{subreddit}/hot.json")
+    suspend fun top(
+        @Path("subreddit") subreddit: String,
+        @Query("limit") limit: Int,
+        @Query("after") after: String): Response<RedditResponse>
 }
 
 object WebServices {

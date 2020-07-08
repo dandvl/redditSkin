@@ -5,9 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.danielm.redditskin.adapters.PostAdapter
 import com.danielm.redditskin.databinding.FragmentMainBinding
@@ -20,7 +22,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class MainFragment : Fragment() {
 
     private val postViewModel: PostsViewModel by viewModel()
-    private lateinit var postAdapter : PostAdapter
+    private var postAdapter = PostAdapter()
     private lateinit var binding : FragmentMainBinding
 
     override fun onCreateView(
@@ -35,8 +37,6 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        postAdapter = PostAdapter()
-
         rvPosts.apply {
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
@@ -46,21 +46,18 @@ class MainFragment : Fragment() {
         postViewModel.postsLD.observe(viewLifecycleOwner, Observer { response ->
             when(response) {
                 is Resource.Success -> {
-//                    binding.isLoading = false
                     response.data?.data?.children?.let { posts ->
                         postAdapter.submitList(posts)
                     }
                     swipeToRefresh.isRefreshing = false
                 }
                 is Resource.Error -> {
-//                    binding.isLoading = false
                     response.message?.let { message ->
                         Log.e("TAG", "An error occured: $message")
                     }
                     swipeToRefresh.isRefreshing = false
                 }
                 is Resource.Loading -> {
-//                    binding.isLoading = true
                 }
             }
         })
@@ -68,6 +65,16 @@ class MainFragment : Fragment() {
         swipeToRefresh.setOnRefreshListener(
             OnRefreshListener { postViewModel.loadPosts() }
         )
+
+        rvPosts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if(!recyclerView.canScrollVertically(1)) {
+                    val after = (recyclerView.adapter as PostAdapter).differ.currentList.last().data.name
+                    postViewModel.loadPosts(after)
+                }
+            }
+        })
 
     }
 
